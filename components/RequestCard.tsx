@@ -21,7 +21,7 @@ const RequestCard = ({ item, onPress }: RequestCardProps) => {
         <Text className="text-gray-400 text-sm">Posted {item.posted}</Text>
         <Text className="text-lg font-bold text-gray-900">{item.title}</Text>
         <Text className="text-gray-600 text-sm">{item.name}</Text>
-        <Text className="text-black font-bold mt-4 mb-1">{item.description}</Text>
+        <Text className="text-black mt-4 mb-1 text-lg">{item.description}</Text>
       </View>
     <View className="pt-2 flex flex-row justify-between">
       <View className="flex">

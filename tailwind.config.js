@@ -20,6 +20,7 @@ module.exports = {
         },
       },
       fontFamily: {
+        rregular: ["Roboto-Regular", "sans-serif"],
         pthin: ["Poppins-Thin", "sans-serif"],
         pextralight: ["Poppins-ExtraLight", "sans-serif"],
         plight: ["Poppins-Light", "sans-serif"],
@@ -29,6 +30,7 @@ module.exports = {
         pbold: ["Poppins-Bold", "sans-serif"],
         pextrabold: ["Poppins-ExtraBold", "sans-serif"],
         pblack: ["Poppins-Black", "sans-serif"],
+
       },
     },
   },

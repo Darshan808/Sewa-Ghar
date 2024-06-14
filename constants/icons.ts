@@ -15,6 +15,10 @@ import clock from "../assets/icons/clock.png";
 import heart_fill from "../assets/icons/heart_fill.png";
 import heart_outline from "../assets/icons/heart_outline.png";
 import star from "../assets/icons/star.png";
+import location from '../assets/icons/location.png'
+import dateandtime from '../assets/icons/dateandtime.png'
+import user from '../assets/icons/user.png'
+import money from '../assets/icons/money.png'
 
 export default {
   booked,
@@ -34,4 +38,8 @@ export default {
   heart_fill,
   heart_outline,
   star,
+  location,
+  dateandtime,
+  user,
+  money
 };

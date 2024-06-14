@@ -20,6 +20,7 @@ const RootLayout = () => {
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+    "Robotto-Regular": require("../assets/fonts/RobotoCondensed-VariableFont_wght.ttf")
   });
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const RootLayout = () => {
         <Stack.Screen name="search/[query]" options={{ headerShown: false }} />
         <Stack.Screen name="post/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="request/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="request/final/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="servicetabs" options={{ headerShown: false }} />
       </Stack>
     </Provider>

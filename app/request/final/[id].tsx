@@ -3,12 +3,14 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { icons, images } from '@/constants';
-import { CustomButton } from '@/components';
+import { CustomButton, FormField } from '@/components';
+import { useState } from 'react';
 
 const Request = () => {
   const user = useSelector((state: RootState) => state.user);
   const params = useLocalSearchParams();
   const serviceId = parseInt(params["id"] as string);
+  const [questions, setQuestions] = useState("");
   const service = user.requests.find((request) => request.id === serviceId);
   return (
     <ScrollView className="flex-1">
@@ -41,35 +43,29 @@ const Request = () => {
         <View className="flex">
           <View className="flex-row">
           <Image
-            source={icons.location}
-            className="w-5 h-5 mr-2 mt-1"
-          />
-          <Text className="text-gray-600 text-lg mr-2">Location: {service?.location}</Text>
-          </View>
-          <View className="flex-row">
-          <Image
             source={icons.money}
             className="w-5 h-5 mr-2 mt-1"
           />
           <Text className="text-gray-600 text-lg mr-2">Charge: Rs.{service?.charge}</Text>
           </View>
-          <View className="flex-row">
-          <Image
-            source={icons.dateandtime}
-            className="w-5 h-5 mr-2 mt-1"
+        </View>
+      </View>
+      <View className="flex mt-4 relative">
+          <Text className="text-black text-lg font-bold mt-4">Comments or Questions</Text>
+            <FormField
+            value={questions}
+            handleChangeText={(e) => setQuestions(e)}
+            otherStyles=""
           />
-          <Text className="text-gray-600 text-lg mr-2">Date: <Text className="text-green-500">Urgent</Text></Text>
-          </View>
-          
-        </View>
-        <Text className="font-pregular text-black text-lg font-bold mt-4 mb-2">Description</Text>
-        <Text className="text-black text-lg">
-          {service?.description}
-        </Text>
-        <View className="flex mt-4 relative">
-          <Text className="text-black text-lg font-bold mt-4 mb-2">Images</Text>
-          <Image source={images.leak}  className="font-pregular h-40 w-full rounded-lg" resizeMode='cover'/>
-        </View>
+      </View>
+      <View className="flex mt-4 relative">
+          <Text className="text-black text-lg font-bold mt-4">Your Quotation</Text>
+            <FormField
+            value={questions}
+            handleChangeText={(e) => setQuestions(e)}
+            otherStyles=""
+            keyboardType={"numeric"}
+          />
       </View>
     <View>
     <View className="flex flex-row mt-4 w-full justify-between">
@@ -80,10 +76,10 @@ const Request = () => {
             handlePress={()=>router.push('/servicetabs/home')}
         />
         <CustomButton
-            title="Next"
-            containerStyles="flex-1 ml-2 bg-blue-400"
+            title="Apply"
+            containerStyles="flex-1 ml-2 bg-green-400"
             icon={icons.clock}
-            handlePress={()=>router.push(`/request/final/${serviceId}`)}
+            handlePress={()=>null}
         />
       </View>
     </View>
