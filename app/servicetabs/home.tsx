@@ -9,28 +9,18 @@ import {router} from "expo-router";
 import { RequestCard } from "@/components";
 
 const Home = () => {
-  interface Request {
-    id: number;
-    name: string;
-    service: string;
-    location: string;
-  }
   const user = useSelector((state: RootState) => state.user);
-  const requests: Request[] = [{id:1, name:"Darshan Poudel", location:"Kathmandu", service:"Electrician"}, {id:2, name:"Nabin Neupane", location:"Kathmandu", service:"Plumber"}];
-
   return (
     <SafeAreaView className="bg-primary">
       <FlatList
-        data={requests}
+        data={user.requests}
         keyExtractor={(item:Request) => item.id.toString()}
         numColumns={1}
         contentContainerStyle={{paddingHorizontal: 10}}
         renderItem={({ item }:{item:Request}) => (
             <RequestCard 
-                name={item.name}
-                location={item.location}
-                service={item.service}
-                onPress={()=> null}
+                item={item}
+                onPress={()=>router.push(`request/${item.id}`)}
             />
         )}
         ListHeaderComponent={() => (

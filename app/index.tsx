@@ -25,7 +25,6 @@ const Welcome = () => {
             className="w-[250px] h-[164px]"
             resizeMode="contain"
           />
-
           <View className="flex-1 flex-row items-center w-full mt-[10vh]">
             <Image
               source={images.home_clean}

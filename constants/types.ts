@@ -34,6 +34,18 @@ interface BookedService {
 }
 
 //User
+export interface Request {
+  id: number;
+  name: string;
+  service: string;
+  location: string;
+    description: string;
+    charge: number;
+    posted: string;
+    title: string;
+
+}
+
 interface User {
     id: number,
     name: string,
@@ -43,9 +55,10 @@ interface User {
     address: string,
     profileImage?: string,
     bookedServices: BookedService[],
-    rating: number,
+    rating?: number,
     description: string,
-    services: Service[]
+    services: Service[],
+    requests: Request[]
 }
 
 

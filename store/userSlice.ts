@@ -13,6 +13,7 @@ const initialState:User = {
     rating: 4,
     services: [],
     description: 'Specialist in electrical wiring and installation of electrical appliances. I have been working in this field for 5 years. I can provide services in Kathmandu valley. I am available from 9 am to 5 pm.',
+    requests: [{id:1, name:"Darshan Poudel", location:"Kathmandu", service:"Electrician", description:"There's a constant leakage from ceiling from last day. This has been bugging me...", charge:1200,posted:"32 mins ago",title:"Leakage from ceiling"}, {title:"Fixing Nacked Wire",id:2, name:"Ram Bahadur", location:"Lalitpur", service:"Electrician", description:"There's a nacked wire in my house. I need someone to fix it.",charge:600,posted:"57 mins ago"}]
 };
 
 const userSlice = createSlice({
