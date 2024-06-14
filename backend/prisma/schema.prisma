@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
+  password        String
+  name            String
+  phoneNumber     String
+  address         String?
+  role            Role             @default(CUSTOMER)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  serviceProvider ServiceProvider?
+
+  bookings Booking[]
+  reviews  Review[]
+  issues   Issue[]
+}
+
+model ServiceCategory {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Issue {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  title  String
+  price  Float
+
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bookings Booking[]
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+}
+
+model ServiceProvider {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  rating    Float?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id])
+  bookings Booking[]
+  reviews  Review[]
+}
+
+model Booking {
+  id                Int           @id @default(autoincrement())
+  userId            Int
+  serviceProviderId Int
+  status            BookingStatus @default(PENDING)
+  scheduledAt       DateTime
+  completedAt       DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  issueId           Int           @unique
+  issue             Issue         @relation(fields: [issueId], references: [id])
+
+  user            User            @relation(fields: [userId], references: [id])
+  serviceProvider ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  reviews         Review[]
+}
+
+
+model Review {
+  id                Int      @id @default(autoincrement())
+  rating            Int
+  comment           String?
+  userId            Int
+  serviceProviderId Int
+  bookingId         Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user            User            @relation(fields: [userId], references: [id])
+  serviceProvider ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  booking         Booking         @relation(fields: [bookingId], references: [id])
+}
+
+enum Role {
+  CUSTOMER
+  SERVICE_PROVIDER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  NET_BANKING
+  UPI
+  CASH
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
