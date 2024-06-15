@@ -14,18 +14,21 @@ const SignIn = () => {
 
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-
   const handleSetUser = () => {
     dispatch(setUser({ 
+      category: type === 'customer' ? 'Customer' : 'Service Provider',
+      services: [],
+      description: 'I am a custom Discription',
+      profileImage: "load later",
+      requests: [],
       name: 'John Doe',
       email: 'john.doe@example.com',
       id: 1,
       phoneNumber: '1234567890',
       address: '123, Main Street, New York',
-      bookedServices: [{id: 1, name: 'Service 1', date: '2022-12-12', time: '12:00', location: 'New York', serviceCharge: 1000, status: 'Confirmed'}]
+      bookedServices: [{type:"Barber",id: 1, name: 'Service 1', date: '2022-12-12', time: '12:00', location: 'New York', serviceCharge: 1000, status: 'Confirmed'}]
      }));
   };
-
   const handleClearUser = () => {
     dispatch(clearUser());
   };
@@ -34,7 +37,6 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-
   const submit = async () => {
     if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
@@ -70,11 +72,9 @@ const SignIn = () => {
             resizeMode="contain"
             className="w-[200px] h-[124px] mt-0 mb-0 mx-auto"
           />
-
           <Text className="text-2xl font-semibold text-black mt-0 font-psemibold">
             Log in to <Text className="text-secondary">Sewa Ghar</Text>
           </Text>
-
           <FormField
             title="Email"
             value={form.email}
@@ -82,21 +82,18 @@ const SignIn = () => {
             otherStyles="mt-7"
             keyboardType="email-address"
           />
-
           <FormField
             title="Password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
-
           <CustomButton
             title="Sign In"
             handlePress={submit}
             containerStyles="mt-10"
             isLoading={isSubmitting}
           />
-
           <View className="flex justify-center pt-5 flex-column items-center gap-2">
             <Text className="text-lg text-black-100 font-pregular">
               Don't have an account?

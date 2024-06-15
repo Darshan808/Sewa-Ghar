@@ -5,13 +5,31 @@ import { RootState } from '@/store/store';
 import { icons, images } from '@/constants';
 import { CustomButton, FormField } from '@/components';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addBookedState } from '@/store/userSlice';
 
 const Request = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const params = useLocalSearchParams();
   const serviceId = parseInt(params["id"] as string);
   const [questions, setQuestions] = useState("");
   const service = user.requests.find((request) => request.id === serviceId);
+  const [quotation, setQuotation] = useState(service?.charge as number);
+  const handleApply = ()=>{
+    const BookedService = {
+      type: service?.type as string,
+      id: user.bookedServices.length + 1,
+      name: service?.name as string,
+      date: new Date().toDateString(),
+      time: new Date().toTimeString(),
+      location: "Kathmandu",
+      serviceCharge: quotation,
+      status: "Pending",
+    }
+    dispatch(addBookedState(BookedService));
+    router.push('/servicetabs/booked');
+  }
   return (
     <ScrollView className="flex-1">
     <View className="flex-1 bg-white p-6 rounded-lg shadow-lg mt-16 mb-12 mx-5 relative">
@@ -50,19 +68,19 @@ const Request = () => {
           </View>
         </View>
       </View>
-      <View className="flex mt-4 relative">
-          <Text className="text-black text-lg font-bold mt-4">Comments or Questions</Text>
+      <View className="flex mt-8 relative">
             <FormField
+            title={"Questions or Comments"}
             value={questions}
             handleChangeText={(e) => setQuestions(e)}
             otherStyles=""
           />
       </View>
       <View className="flex mt-4 relative">
-          <Text className="text-black text-lg font-bold mt-4">Your Quotation</Text>
             <FormField
-            value={questions}
-            handleChangeText={(e) => setQuestions(e)}
+            title={"Your Quotation"}
+            value={quotation}
+            handleChangeText={(e) => setQuotation(e)}
             otherStyles=""
             keyboardType={"numeric"}
           />
@@ -79,7 +97,7 @@ const Request = () => {
             title="Apply"
             containerStyles="flex-1 ml-2 bg-green-400"
             icon={icons.clock}
-            handlePress={()=>null}
+            handlePress={handleApply}
         />
       </View>
     </View>

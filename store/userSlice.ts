@@ -13,7 +13,7 @@ const initialState:User = {
     rating: 4,
     services: [],
     description: 'Specialist in electrical wiring and installation of electrical appliances. I have been working in this field for 5 years. I can provide services in Kathmandu valley. I am available from 9 am to 5 pm.',
-    requests: [{id:1, name:"Darshan Poudel", location:"Kathmandu", service:"Electrician", description:"There's a constant leakage from ceiling from last day. This has been bugging me...", charge:1200,posted:"32 mins ago",title:"Leakage from ceiling"}, {title:"Fixing Nacked Wire",id:2, name:"Ram Bahadur", location:"Lalitpur", service:"Electrician", description:"There's a nacked wire in my house. I need someone to fix it.",charge:600,posted:"57 mins ago"}]
+    requests: [{type:"Electrician",id:1, name:"Darshan Poudel", location:"Kathmandu", service:"Electrician", description:"There's a constant leakage from ceiling from last day. This has been bugging me...", charge:1200,posted:"32 mins ago",title:"Leakage from ceiling"}, {type:"Electrician",title:"Fixing Nacked Wire",id:2, name:"Ram Bahadur", location:"Lalitpur", service:"Electrician", description:"There's a nacked wire in my house. I need someone to fix it.",charge:600,posted:"57 mins ago"}]
 };
 
 const userSlice = createSlice({
@@ -41,8 +41,14 @@ const userSlice = createSlice({
       state.profileImage = '';
       state.category = '';
     },
+    addBookedState: (state, action) => {
+      state.bookedServices.push(action.payload);
+    },
+    addRequests: (state, action) => {
+      state.requests.push(action.payload);
+    }
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, addBookedState } = userSlice.actions;
 export default userSlice.reducer;

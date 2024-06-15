@@ -34,6 +34,7 @@ const FormField = ({
           secureTextEntry={title === "Password" && !showPassword}
           keyboardType={keyboardType}
           onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           {...props}
         />
 
@@ -42,6 +43,15 @@ const FormField = ({
             <Image
               source={!showPassword ? icons.eye : icons.eyeHide}
               className="w-6 h-6"
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        )}
+        {placeholder==="reply" && (
+          <TouchableOpacity onPress={() => null}>
+            <Image
+              source={icons.send}
+              className="w-6 h-6 ml-4"
               resizeMode="contain"
             />
           </TouchableOpacity>

@@ -7,6 +7,7 @@ interface Service {
 }
 
 interface BookedService {
+    type:string,
     id: number,
     name: string,
     date: string,
@@ -35,6 +36,7 @@ interface BookedService {
 
 //User
 export interface Request {
+    type: string,
   id: number;
   name: string;
   service: string;

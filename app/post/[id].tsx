@@ -18,20 +18,37 @@ import { CustomButton, FormField } from "../../components";
 import services from "@/constants/services";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { useDispatch } from "react-redux";
+import { addBookedState } from "@/store/userSlice";
+
+interface FormProps {
+  title:string,
+  description:string;
+  price:number|null;
+  date?:Date | string;
+  time?:Date | string;
+  video?: string;
+  image?: string;
+  isUrget:boolean;
+}
 
 const Create = () => {
+  const dispatch = useDispatch();
   const params = useLocalSearchParams();
   const serviceId = parseInt(params["id"] as string);
   const service = services.find((s) => s.id === serviceId);
   const [uploading, setUploading] = useState(false);
-  const [form, setForm] = useState({
-    title: "",
-    video: null,
-    thumbnail: null,
-    prompt: "",
+  const [form, setForm] = useState<FormProps>({
+    title:"",
+    description: "",
+    price: null,
+    date: "",
+    time: "",
+    video: "",
+    image: "",
+    isUrget: false
+
   });
-  const [isUrgent,setIsUrgent] = useState(false);
-  const toggleSwitch = () => setIsUrgent(previousState => !previousState);
   const [date, setDate] = useState(new Date());
   const [displayDate, setDisplayDate] = useState<string>(''); 
   const [displayTime, setDisplayTime] = useState<string>(''); 
@@ -46,8 +63,9 @@ const Create = () => {
   const onChange = (event,SelectedDate:Date)=>{
     setShow(false);
     const currentDate = SelectedDate || date;
-    setDate(currentDate);
-    setDisplayDate(currentDate.getDate() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getFullYear())
+    form.time = currentDate.getHours() + ':' + currentDate.getMinutes();
+    form.date = currentDate.getFullYear() + '-' + currentDate.getMonth() + '-' + currentDate.getDate();
+    setDisplayDate(currentDate.getFullYear() + '-' + currentDate.getMonth() + '-' + currentDate.getDate());
     setDisplayTime(currentDate.getHours() + ':' + currentDate.getMinutes())
     if(SelectedDate) setShowDateTime(true);
   }
@@ -84,10 +102,8 @@ const Create = () => {
 
   const submit = async () => {
     if (
-      (form.prompt === "") |
-      (form.title === "") |
-      !form.thumbnail |
-      !form.video
+      (form.title === "") ||
+      (form.description === "")
     ) {
       return Alert.alert("Please provide all fields");
     }
@@ -99,21 +115,42 @@ const Create = () => {
       //   // userId: user.$id,
       // });
 
-      Alert.alert("Success", "Post uploaded successfully");
-      router.push("/home");
+      Alert.alert("Success", "Post uploaded successfully");  
+      const {title, description, price, date, time, isUrget} = form; 
+      const data = {
+        id: Math.floor(Math.random() * 1000),
+        type: service?.name,
+        name:title,
+        description,
+        serviceCharge:price,
+        date,
+        time,
+        status: 'Pending',
+        location: 'Kathmandu',
+      }
+      dispatch(addBookedState(data));
+      router.push("/booked");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
       setForm({
-        title: "",
-        video: null,
-        thumbnail: null,
-        prompt: "",
+        title:"",
+        description: "",
+        price: null,
+        date: "",
+        time: "",
+        video: "",
+        image: "",
+        isUrget: false
       });
+      setDate(new Date());
+      setDisplayDate('');
+      setDisplayTime('');
+      setShowDateTime(false);
+    }
 
       setUploading(false);
     }
-  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -130,44 +167,49 @@ const Create = () => {
         </View>   
         <Text className="text-2xl text-black font-psemibold">Create a <Text className="text-secondary">{service?.name}</Text> service request</Text>
         <FormField
-          title="Name"
-          value={form.title}
-          placeholder=""
-          handleChangeText={(e) => setForm({ ...form, title: e })}
-          otherStyles="mt-6"
-        />
-        <FormField
-          title="Phone Number"
-          value={form.title}
-          placeholder=""
-          handleChangeText={(e) => setForm({ ...form, title: e })}
-          otherStyles="mt-4"
-          keyboardType="phone-pad"
-        />
-        <FormField
-          title="Address"
+          title="Title"
           value={form.title}
           placeholder=""
           handleChangeText={(e) => setForm({ ...form, title: e })}
           otherStyles="mt-4"
         />
         <FormField
-          title="Discription of service"
-          value={form.title}
+          title="Description"
+          value={form.description}
           placeholder=""
-          handleChangeText={(e) => setForm({ ...form, title: e })}
+          handleChangeText={(e) => setForm({ ...form, description: e })}
           otherStyles="mt-4"
         />
-        <View className="flex flex-row mt-4 w-full justify-between">
+        <FormField
+          title="Price"
+          value={form.price}
+          placeholder=""
+          handleChangeText={(e) => setForm({ ...form, price: e })}
+          otherStyles="mt-4"
+        />
+          <View className="flex flex-row items-center px-4">
+            <Text className="text-base text-black-100 font-pmedium">Urgent Service:</Text>
+            <Switch
+                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                thumbColor={form.isUrget ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={()=>setForm({...form, isUrget: !form.isUrget})}
+                value={form.isUrget}
+            />
+            {/* Add more options as needed */}
+        </View>
+        <View className="flex flex-row mt-4 px-2 w-full justify-between">
         <CustomButton
             title={showDateTime ? displayDate : 'Select Date'}
-            containerStyles="flex-1 mr-2 bg-blue-400"
+            containerStyles="flex-1 mr-2 bg-blue-400 h-4"
+            textStyles="font-pregular"
             icon={icons.calendar}
             handlePress={()=>handleDateTime('date')}
         />
         <CustomButton
             title={showDateTime ? displayTime : 'Select Time'}
             containerStyles="flex-1 ml-2"
+            textStyles="font-pregular"
             icon={icons.clock}
             handlePress={()=>handleDateTime('time')}
         />
@@ -236,17 +278,6 @@ const Create = () => {
               </View>
             )}
           </TouchableOpacity>
-        </View>
-        <View className="flex flex-row items-center">
-            <Text className="text-base text-black-100 font-pmedium">Urgent Service:</Text>
-            <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={isUrgent ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isUrgent}
-            />
-            {/* Add more options as needed */}
         </View>
 
         <CustomButton

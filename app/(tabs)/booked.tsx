@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { BookedService, Service } from "@/constants/types";
 import BookedServiceCard from "@/components/BookedServiceCard";
 import EmptyState from "@/components/EmptyState";
+import { router } from "expo-router";
 
 
 const Booked= () => {
@@ -16,18 +17,18 @@ const Booked= () => {
       <FlatList
         data={user?.bookedServices}
         keyExtractor={(item:BookedService) => item.id.toString()}
-        numColumns={2}
+        numColumns={1}
         contentContainerStyle={{paddingHorizontal: 10}}
         renderItem={({ item }) => (
           <BookedServiceCard
+            type={item.type}
             name={item.name}
-            // image={item.image}
             date={item.date}
             time={item.time}
             location={item.location}
             serviceCharge={item.serviceCharge}
             status={item.status}
-            onPress={() => {}}
+            onPress={() => (router.push(`/biddings_user/${item.id}`))}
           />
         )}
         ListHeaderComponent={() => (

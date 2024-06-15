@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { BookedService } from '@/constants/types';
+import services from '@/constants/services';
 
 interface BookedServiceCardProps extends BookedService {
     onPress: ()=>void;
@@ -14,12 +15,17 @@ const getTextColor = (status: string) => {
     } else {
         return 'text-orange-500'
     }
-    
 }
 
-const BookedServiceCard = ({ name, date, time, serviceCharge, location, status, onPress }: BookedServiceCardProps) => {
+const getImage = (name: string):ImageSourcePropType => {
+  return services.filter((service) => service.name === name)[0].image;
+}
+
+const BookedServiceCard = ({type, name, date, time, serviceCharge, location, status, onPress }: BookedServiceCardProps) => {
+ console.log(type);
+ 
   return (
-    <View className="w-full bg-white rounded-2xl border-2 border-orange-400 flex-1 m-2 p-4 shadow-lg">
+    <View className="w-[90vw] bg-white rounded-2xl border-2 border-orange-400 m-2 p-4 shadow-lg">
       <TouchableOpacity 
         onPress={onPress}
         className="flex flex-col justify-between"
@@ -31,7 +37,7 @@ const BookedServiceCard = ({ name, date, time, serviceCharge, location, status, 
               <Text className="text-sm text-gray-800 mb-1">Date: {date}</Text>
               <Text className="text-sm text-gray-800 mb-1">Time: {time}</Text>
               <Text className="text-sm text-gray-800 mb-1">Location: {location}</Text>
-              <Text className="text-sm text-gray-800 mb-1">Charge: ${serviceCharge}</Text>
+              <Text className="text-sm text-gray-800 mb-1">Charge: Rs {serviceCharge}</Text>
               <Text className="text-sm text-gray-800 mb-1">
                 Status:{' '}
                 <Text className={`text-sm font-semibold ${getTextColor(status)}`}>{status}</Text>
@@ -39,7 +45,7 @@ const BookedServiceCard = ({ name, date, time, serviceCharge, location, status, 
             </View>
           </View>
           <Image
-            source={require('@/assets/images/services/barbershop.png')}
+            source={getImage(type)}
             className="w-20 h-20 mr-4"
           />
         </View>

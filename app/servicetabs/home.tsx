@@ -37,8 +37,8 @@ const Home = () => {
 
               <View>
                 <Image
-                  source={images.my_avatar}
-                  className="w-20 h-20"
+                  source={images.service_profile}
+                  className="w-16 h-16 rounded-full"
                   resizeMode="contain"
                 />
               </View>

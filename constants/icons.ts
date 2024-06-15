@@ -19,6 +19,9 @@ import location from '../assets/icons/location.png'
 import dateandtime from '../assets/icons/dateandtime.png'
 import user from '../assets/icons/user.png'
 import money from '../assets/icons/money.png'
+import accept from '../assets/icons/checked.png'
+import cancel from '../assets/icons/multiply.png'
+import send from '../assets/icons/send.png'
 
 export default {
   booked,
@@ -41,5 +44,8 @@ export default {
   location,
   dateandtime,
   user,
-  money
+  money,
+  cancel,
+  accept,
+  send
 };

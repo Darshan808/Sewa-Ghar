@@ -15,5 +15,6 @@ import discount2 from '../assets/images/discount2.png';
 import discount3 from '../assets/images/discount3.png';
 import service_profile from '../assets/images/service_profile.png';
 import leak from '../assets/images/leak.jpg';
+import user_avatar from '../assets/images/user_avatar.png';
 
-export default { profile, thumbnail, cards, path, logo, logoSmall, empty, ac_repair, home_clean, my_avatar, user, service_provider, discount, discount2, discount3, service_profile, leak};
+export default { profile, thumbnail, cards, path, logo, logoSmall, empty, ac_repair, home_clean, my_avatar, user, service_provider, discount, discount2, discount3, service_profile, leak, user_avatar};

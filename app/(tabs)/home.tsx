@@ -32,7 +32,7 @@ const Home = () => {
         )}
         ListHeaderComponent={() => (
           <View className="flex mt-4 px-4 space-y-2">
-            <View className="flex justify-between items-start flex-row">
+            <View className="flex justify-between items-start flex-row mb-4">
               <View>
                 <Text className="font-pmedium text-sm text-back-100">
                   Welcome Back
@@ -44,8 +44,8 @@ const Home = () => {
 
               <View>
                 <Image
-                  source={images.my_avatar}
-                  className="w-20 h-20"
+                  source={images.user_avatar}
+                  className="w-14 h-14 rounded-lg"
                   resizeMode="contain"
                 />
               </View>

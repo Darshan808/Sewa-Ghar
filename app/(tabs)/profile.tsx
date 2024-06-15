@@ -1,117 +1,57 @@
-import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Image, FlatList, TouchableOpacity, Modal, Text} from "react-native";
-import { icons } from "@/constants";
-import { EmptyState, InfoBox, BookedServiceCard  } from "@/components/index";
-import { useSelector, useDispatch } from 'react-redux';
+import { View, Text, Image } from 'react-native'
+import { images, icons } from '@/constants'
+import { CustomButton } from '@/components'
+import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { clearUser } from '@/store/userSlice';
-import { images } from "@/constants";
-import { useState } from "react";
+
 
 const Profile = () => {
-  const [showModal, setShowModal] = useState(false);
   const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
-  const posts:any[] = [];
-
-  const logout = async () => {
-    dispatch(clearUser());
-    router.replace("/index");
-  };
-  const handleLogout = () => {
-    setShowModal(true);
-  }
-
   return (
-    <SafeAreaView className="bg-primary h-full">
-      <FlatList
-        data={posts}
-        keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <BookedServiceCard
-            name="dp"
-          />
-        )}
-        ListEmptyComponent={() => (
-          <EmptyState
-            title="No Services Ordered"
-            subtitle="No Services found for this profile"
-          />
-        )}
-        ListHeaderComponent={() => (
-          <View className="w-full flex justify-center items-center mt-6 mb-12 px-4">
-            <TouchableOpacity
-              onPress={handleLogout}
-              className="flex w-full items-end mb-10"
-            >
+  <View className="flex-1 justify-center items-center">
+      <View className="flex-1 bg-white p-6 rounded-lg shadow-lg mt-16 mb-12 mx-5 relative">
+        <Image
+          source={images.user_avatar} // replace with actual image URL
+          className="w-24 h-24 rounded-full mx-auto"
+        />
+        <Text className="text-xl font-semibold text-center mt-4">
+          {user.name}
+        </Text>
+        <Text className="text-center text-gray-600 mt-2">
+          {/* {user.category} */}
+          My ratings
+        </Text>
+        <View className="flex-row justify-center items-center mt-2 mb-4">
+          {
+            Array.from({length: 4}).map((_, index) => (
               <Image
-                source={icons.logout}
-                resizeMode="contain"
-                className="w-6 h-6"
+                key={`star-${index}`}
+                source={icons.star}
+                className="w-4 h-4"
               />
-            </TouchableOpacity>
-            <Modal
-              visible={showModal}
-              transparent
-              animationType="fade"
-              onRequestClose={() => setShowModal(false)}
-            >
-              <View className={`flex-1 justify-center items-center bg-grey bg-opacity-40 backdrop-blur-sm`}>
-                <View className={`bg-white p-6 rounded-lg shadow-lg`}>
-                  <Text className={`text-lg font-bold mb-4 text-center`}>Do you want to log out?</Text>
-                  <View className={`flex-row justify-between`}>
-                    <TouchableOpacity
-                      className={`bg-red-500 py-3 px-6 rounded-lg`}
-                      onPress={() => setShowModal(false)}
-                    >
-                      <Text className={`text-white font-bold`}>No</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      className={`bg-green-500 py-3 px-6 rounded-lg`}
-                      onPress={logout}
-                    >
-                      <Text className={`text-white font-bold`}>Yes</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+            ))
+          }
+        </View>
+        <Text className="font-semibold">About Me</Text>
+        <Text className="text-gray-700 mt-4">
+          {user.description}
+        </Text>
+        <View className="flex-row mt-4">
+          <Text className="font-semibold">Services Provided: </Text>
+          <Text className="text-gray-700">
+            {user.services.length}
+          </Text>
+        </View>
+        <CustomButton
+            title="Edit Profile"
+            containerStyles="mr-2 bg-blue-400 absolute bottom-10 right-2 px-4"
+            textStyles="text-sm"
+            icon={icons.profile}
+            handlePress={()=>null}
+        />
+      </View>
+    </View>
+  )
+}
 
-            <View className="w-20 h-20 border border-secondary rounded-lg flex justify-center items-center">
-                <Image
-                  source={images.my_avatar}
-                  className="flex-1 w-40 h-40 absolute"
-                  resizeMode="contain"
-                />
-            </View>
-
-            <InfoBox
-              title={user.name}
-              subtitle={""}
-              containerStyles="mt-5"
-              titleStyles="text-lg text-black"
-            />
-
-            <View className="mt-5 flex flex-row">
-              <InfoBox
-                title="10"
-                subtitle="Ordered"
-                titleStyles="text-xl"
-                containerStyles="mr-10"
-              />
-              <InfoBox
-                title="1"
-                subtitle="Pending"
-                titleStyles="text-xl"
-                containerStyles={""}
-              />
-            </View>
-          </View>
-        )}
-      />
-    </SafeAreaView>
-  );
-};
-
-export default Profile;
+export default Profile
