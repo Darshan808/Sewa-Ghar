@@ -26,10 +26,10 @@ const FormField = ({
   const [focused, setFocused] = useState(false);
 
   return (
-    <View className={`space-y-2 ${otherStyles}}`}>
-      <Text className="text-base text-black-100 font-pmedium px-4">{title}</Text>
+    <View className={`space-y-2 mt-6 px-4 ${otherStyles}}`}>
+      <Text className="text-lg font-pregular text-gray-600">{title}</Text>
 
-      <View className="w-full h-12 px-4 bg-white-100 rounded-2xl flex flex-row items-center">
+      <View className="w-full h-6 bg-white-100 rounded-2xl flex flex-row items-center">
         <TextInput
           className="flex-1 text-black font-psemibold text-base"
           style={[

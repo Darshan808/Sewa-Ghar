@@ -120,7 +120,7 @@ const Create = () => {
       const data = {
         id: Math.floor(Math.random() * 1000),
         type: service?.name,
-        name:title,
+        title:title,
         description,
         serviceCharge:price,
         date,
@@ -128,6 +128,8 @@ const Create = () => {
         status: 'Pending',
         location: 'Kathmandu',
       }
+      console.log(data);
+      
       dispatch(addBookedState(data));
       router.push("/booked");
     } catch (error) {
@@ -187,8 +189,8 @@ const Create = () => {
           handleChangeText={(e) => setForm({ ...form, price: e })}
           otherStyles="mt-4"
         />
-          <View className="flex flex-row items-center px-4">
-            <Text className="text-base text-black-100 font-pmedium">Urgent Service:</Text>
+          <View className="flex flex-row items-center px-4 mt-4">
+            <Text className="text-lg font-pregular text-gray-600">Urgent Service:</Text>
             <Switch
                 trackColor={{ false: '#767577', true: '#81b0ff' }}
                 thumbColor={form.isUrget ? '#f5dd4b' : '#f4f3f4'}
@@ -201,14 +203,14 @@ const Create = () => {
         <View className="flex flex-row mt-4 px-2 w-full justify-between">
         <CustomButton
             title={showDateTime ? displayDate : 'Select Date'}
-            containerStyles="flex-1 mr-2 bg-blue-400 h-4"
+            containerStyles={`flex-1 mr-2 h-4 ${form.isUrget ? 'bg-blue-200' : 'bg-blue-400'}`}
             textStyles="font-pregular"
             icon={icons.calendar}
             handlePress={()=>handleDateTime('date')}
         />
         <CustomButton
             title={showDateTime ? displayTime : 'Select Time'}
-            containerStyles="flex-1 ml-2"
+            containerStyles={`flex-1 h-4 ${form.isUrget ? 'bg-orange-200' : 'bg-orange-400'}`}
             textStyles="font-pregular"
             icon={icons.clock}
             handlePress={()=>handleDateTime('time')}
@@ -223,7 +225,7 @@ const Create = () => {
             
         )}
         </View>
-        <View className="mt-7 space-y-2">
+        {/* <View className="mt-7 space-y-2">
           <Text className="text-base text-black-100 font-pmedium">
             Upload Video if necessary
           </Text>
@@ -250,7 +252,7 @@ const Create = () => {
               </View>
             )}
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View className="mt-7 space-y-2">
           <Text className="text-base text-black-100 font-pmedium">

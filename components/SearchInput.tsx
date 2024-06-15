@@ -9,12 +9,12 @@ const SearchInput = ({ initialQuery }) => {
   const [query, setQuery] = useState(initialQuery || "");
 
   return (
-    <View className="flex flex-row items-center space-x-4 w-full h-16 px-4 bg-white-100 rounded-2xl border-2 border-black-200 focus:border-secondary">
+    <View className="flex flex-row items-center space-x-4 w-full h-12 px-4 bg-gray-50 shadow-2xl rounded-2xl border-1 border-black-200 focus:border-secondary">
       <TextInput
         className="text-base mt-0.5 text-black flex-1 font-pregular"
         value={query}
         placeholder="Search for anything..."
-        placeholderTextColor="black"
+        placeholderTextColor="grey"
         onChangeText={(e) => setQuery(e)}
       />
 
