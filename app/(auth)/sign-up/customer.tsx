@@ -7,40 +7,52 @@ import { CustomButton, FormField } from "@/components";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { setUser, clearUser } from '@/store/userSlice';
+import axios from "axios";
+import { BASE_URL } from "@/app/config";
+
 
 const SignUp = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-
-  const handleSetUser = () => {
-    dispatch(setUser({ name: form.username, email: 'john.doe@example.com' }));
-  };
-
   const handleClearUser = () => {
     dispatch(clearUser());
   };
 
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
+    phoneNumber: "",
+    address: "",
   });
 
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (form.name === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
 
     setSubmitting(true);
     try {
-      handleSetUser();
-      // setUser(result);
-      // setIsLogged(true);
+      const res = await axios.post(`${BASE_URL}/auth/register/user`, form);
 
-      router.replace("/home");
+      const newUser = res.data;
+      const userToDispatch = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        category: newUser.role,
+        phoneNumber: newUser.phoneNumber,
+        address: newUser.address,
+        bookedServices: newUser.bookings,
+        description: `${newUser.name} lives in ${newUser.address}`,
+        services: newUser.issues,
+        requests: [],
+      }
+      dispatch(setUser(userToDispatch));      
+      router.push('/home')
     } catch (error) {
-      if (error instanceof Error) Alert.alert("Error", error.message);
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
@@ -63,9 +75,9 @@ const SignUp = () => {
           </Text>
 
           <FormField
-            title="Username"
-            value={form.username}
-            handleChangeText={(e) => setForm({ ...form, username: e })}
+            title="Name"
+            value={form.name}
+            handleChangeText={(e) => setForm({ ...form, name: e })}
             otherStyles="mt-5"
           />
 
@@ -82,6 +94,22 @@ const SignUp = () => {
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-5"
+          />
+
+          <FormField
+            title="Phone Number"
+            value={form.phoneNumber}
+            handleChangeText={(e) => setForm({ ...form, phoneNumber: e })}
+            otherStyles="mt-5"
+            keyboardType={"numpad"}
+          />
+
+          <FormField
+            title="Address"
+            value={form.address}
+            handleChangeText={(e) => setForm({ ...form, address: e })}
+            otherStyles="mt-5"
+            keyboardType={"numeric"}
           />
 
           <CustomButton

@@ -40,7 +40,7 @@ const BookedServiceCard = ({type, name, date, time, serviceCharge, location, sta
               <Text className="text-sm text-gray-800 mb-1">Charge: Rs {serviceCharge}</Text>
               <Text className="text-sm text-gray-800 mb-1">
                 Status:{' '}
-                <Text className={`text-sm font-semibold ${getTextColor(status)}`}>{status}</Text>
+                <Text className={`text-sm font-semibold ${getTextColor(status as string)}`}>{status}</Text>
               </Text>
             </View>
           </View>

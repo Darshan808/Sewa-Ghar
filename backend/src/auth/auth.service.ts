@@ -58,6 +58,11 @@ export class AuthService {
       where: {
         email: dto.email,
       },
+      include: {
+          bookings: true,
+          issues: true,
+          reviews: true,
+        },
     });
 
     if (!user) throw new ForbiddenException('Invalid credentials');
@@ -69,6 +74,13 @@ export class AuthService {
         where: {
           userId: user.id,
         },
+        include: {
+          user: true,
+          services: true,
+          reviews: true,
+          responses: true,
+          bookings: true,
+        }
       });
 
       if (!serviceProvider) throw new ForbiddenException('Invalid credentials');

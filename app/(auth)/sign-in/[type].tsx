@@ -7,6 +7,8 @@ import { CustomButton, FormField } from "@/components";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { setUser, clearUser } from '@/store/userSlice';
+import { BASE_URL } from "@/app/config";
+import axios from "axios";
 
 const SignIn = () => {
   const params = useLocalSearchParams();
@@ -45,15 +47,23 @@ const SignIn = () => {
     setSubmitting(true);
 
     try {
-      // await signIn(form.email, form.password);
-      // const result = await getCurrentUser();
-      // setUser(result);
-      // setIsLogged(true);
-          // Simulate user login
-      handleSetUser();
-      Alert.alert("Success", "User signed in successfully");
-      if(type === 'customer' ) router.replace("/home");
-      else router.replace('/servicetabs/home')
+      const res = await axios.post(`${BASE_URL}/auth/login/user`, form);
+      const newUser = res.data;
+      const userToDispatch = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        category: newUser.role,
+        phoneNumber: newUser.phoneNumber,
+        address: newUser.address,
+        bookedServices: newUser.bookings,
+        description: `${newUser.name} lives in ${newUser.address}`,
+        services: newUser.issues,
+        requests: [],
+      }
+      dispatch(setUser(userToDispatch));      
+      if(type === 'customer') router.push('/home')
+      else router.push('/service-provider')
     } catch (error) {
       if(error instanceof Error) Alert.alert("Error", error.message);
     } finally {
@@ -90,7 +100,10 @@ const SignIn = () => {
           />
           <CustomButton
             title="Sign In"
-            handlePress={submit}
+            handlePress={() => {
+              console.log({form});
+              submit();
+            }}
             containerStyles="mt-10"
             isLoading={isSubmitting}
           />

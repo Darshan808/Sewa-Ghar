@@ -5,9 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
 import { CustomButton, Loader } from "../components";
+import { useEffect } from "react";
+import { BASE_URL } from "./config";
 
 const Welcome = () => {
-
   // if (!loading && isLogged) return <Redirect href="/home" />;
 
   return (

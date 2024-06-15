@@ -1,8 +1,17 @@
-import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { Key, useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, KeyboardTypeOptions } from "react-native";
 import { StyleSheet } from "react-native";
 
 import { icons } from "../constants";
+
+interface FormFieldProps {
+  title: string;
+  value: string;
+  placeholder?: string;
+  handleChangeText: (text: string) => void;
+  otherStyles?: string;
+  keyboardType?: KeyboardTypeOptions;
+}
 
 const FormField = ({
   title,
@@ -12,12 +21,12 @@ const FormField = ({
   otherStyles,
   keyboardType,
   ...props
-}) => {
+}:FormFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [focused, setFocused] = useState(false);
 
   return (
-    <View className={`space-y-2 ${otherStyles}`}>
+    <View className={`space-y-2 ${otherStyles}}`}>
       <Text className="text-base text-black-100 font-pmedium px-4">{title}</Text>
 
       <View className="w-full h-12 px-4 bg-white-100 rounded-2xl flex flex-row items-center">

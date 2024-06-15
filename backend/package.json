@@ -34,7 +34,8 @@
     "class-validator": "^0.14.1",
     "prisma": "^5.15.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "sewagharbackend": "link:"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
