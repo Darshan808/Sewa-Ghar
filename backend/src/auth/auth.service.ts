@@ -1,26 +1,22 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { Role } from '@prisma/client';
-import * as argon from 'argon2';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { LoginUserDto } from './dto/login-user.dto';
+import { ForbiddenException, Injectable } from "@nestjs/common";
+import { PrismaService } from "src/prisma/prisma.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import * as argon from "argon2";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { LoginUserDto } from "./dto/login-user.dto";
+import { CreateServiceProviderDto } from "./dto/create-service-provider.dto";
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async registerUser(dto: CreateUserDto, role: Role) {
+  async registerUser(dto: CreateUserDto) {
     try {
       const hash = await argon.hash(dto.password);
       const user = await this.prisma.user.create({
         data: {
-          email: dto.email,
+          ...dto,
           password: hash,
-          name: dto.name,
-          phoneNumber: dto.phoneNumber,
-          address: dto.address,
-          role: role,
         },
         include: {
           bookings: true,
@@ -29,23 +25,13 @@ export class AuthService {
         },
       });
 
-      if (role == Role.SERVICE_PROVIDER) {
-        await this.prisma.serviceProvider.create({
-          data: {
-            userId: user.id,
-            bio: dto.bio,
-            rating: dto.rating,
-          },
-        });
-      }
-
       delete user.password;
       return user;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code == 'P2002') {
+        if (error.code == "P2002") {
           throw new ForbiddenException(
-            'User with this credentials already exists',
+            "User with this credentials already exists"
           );
         }
       }
@@ -53,40 +39,70 @@ export class AuthService {
     }
   }
 
-  async loginUser(dto: LoginUserDto, role: Role) {
+  async registerServiceProvider(dto: CreateServiceProviderDto) {
+    try {
+      const hash = await argon.hash(dto.password);
+      const serviceProvider = await this.prisma.serviceProvider.create({
+        data: {
+          ...dto,
+          password: hash,
+        },
+        include: {
+          bookings: true,
+          responses: true,
+          reviews: true,
+        },
+      });
+
+      delete serviceProvider.password;
+      return serviceProvider;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code == "P2002") {
+          throw new ForbiddenException(
+            "User with this credentials already exists"
+          );
+        }
+      }
+      throw error;
+    }
+  }
+
+  async loginUser(dto: LoginUserDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
       include: {
-          bookings: true,
-          issues: true,
-          reviews: true,
-        },
+        bookings: true,
+        issues: true,
+        reviews: true,
+      },
     });
 
-    if (!user) throw new ForbiddenException('Invalid credentials');
+    if (!user) throw new ForbiddenException("Invalid credentials");
     const matched = await argon.verify(user.password, dto.password);
-    if (!matched) throw new ForbiddenException('Invalid credentials');
-
-    if (role === Role.SERVICE_PROVIDER) {
-      const serviceProvider = await this.prisma.serviceProvider.findUnique({
-        where: {
-          userId: user.id,
-        },
-        include: {
-          user: true,
-          services: true,
-          reviews: true,
-          responses: true,
-          bookings: true,
-        }
-      });
-
-      if (!serviceProvider) throw new ForbiddenException('Invalid credentials');
-      return serviceProvider;
-    }
-
+    if (!matched) throw new ForbiddenException("Invalid credentials");
+    delete user.password;
     return user;
+  }
+
+  async loginServiceProvider(dto: LoginUserDto) {
+    const serviceProvider = await this.prisma.serviceProvider.findUnique({
+      where: {
+        email: dto.email,
+      },
+      include: {
+        reviews: true,
+        responses: true,
+        bookings: true,
+      },
+    });
+
+    if (!serviceProvider) throw new ForbiddenException("Invalid credentials");
+    const matched = await argon.verify(serviceProvider.password, dto.password);
+    if (!matched) throw new ForbiddenException("Invalid credentials");
+    delete serviceProvider.password;
+    return serviceProvider;
   }
 }

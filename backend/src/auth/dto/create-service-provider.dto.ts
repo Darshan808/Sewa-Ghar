@@ -1,6 +1,14 @@
-import { IsString, IsNotEmpty, MinLength, IsOptional } from "class-validator";
+import { ServiceCategoryEnum } from "@prisma/client";
+import {
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  IsOptional,
+  IsArray,
+  IsEnum,
+} from "class-validator";
 
-export class CreateUserDto {
+export class CreateServiceProviderDto {
   @IsString()
   @IsNotEmpty()
   email: string;
@@ -21,11 +29,14 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
   address: string;
 
   @IsString()
   @IsOptional()
   @IsNotEmpty()
   bio: string;
+
+  @IsArray()
+  @IsEnum(ServiceCategoryEnum, { each: true })
+  services: ServiceCategoryEnum[];
 }

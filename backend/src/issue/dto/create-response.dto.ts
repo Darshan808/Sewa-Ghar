@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString } from "class-validator";
 
 export class CreateResponseDto {
   @IsNumber()
@@ -6,4 +6,7 @@ export class CreateResponseDto {
 
   @IsString()
   message: string;
+
+  @IsNumber()
+  counterPrice: number;
 }

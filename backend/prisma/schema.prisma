@@ -14,29 +14,41 @@ datasource db {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
-  email           String           @unique
-  password        String
-  name            String
-  phoneNumber     String
-  address         String?
-  role            Role             @default(CUSTOMER)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  serviceProvider ServiceProvider?
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String
+  phoneNumber String
+  address     String?
+  role        Role     @default(CUSTOMER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  rating      Float?
+  bio         String?
 
   bookings Booking[]
   reviews  Review[]
   issues   Issue[]
 }
 
-model ServiceCategory {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  description String?
-  providers  ServiceProvider[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model ServiceProvider {
+  id          Int     @id @default(autoincrement())
+  email       String  @unique
+  password    String
+  name        String
+  phoneNumber String
+  role        Role    @default(SERVICE_PROVIDER)
+  address     String
+  rating      Float?
+  bio         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  services  ServiceCategoryEnum[]
+
+  bookings  Booking[]
+  reviews   Review[]
+  responses Response[]
 }
 
 model Issue {
@@ -45,30 +57,20 @@ model Issue {
   title  String
   price  Float
 
+  category ServiceCategoryEnum
+
+  preferredDate String
+  preferredTime String
+
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  bookings Booking[]
+  bookings  Booking[]
   responses Response[]
 
   // Relations
   user User @relation(fields: [userId], references: [id])
-}
-
-model ServiceProvider {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @unique
-  rating    Float?
-  bio       String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User      @relation(fields: [userId], references: [id])
-  bookings Booking[]
-  reviews  Review[]
-  services ServiceCategory[]
-  responses Response[]
 }
 
 model Booking {
@@ -89,18 +91,18 @@ model Booking {
 }
 
 model Response {
-  id                  Int       @id @default(autoincrement())
-  serviceProviderId   Int
-  issueId             Int @unique
-  message             String
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  id                Int      @id @default(autoincrement())
+  serviceProviderId Int
+  issueId           Int   
+  message           String
+  counterPrice     Float
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   // Relations
-  serviceProvider     ServiceProvider @relation(fields: [serviceProviderId], references: [id])
-  issue               Issue           @relation(fields: [issueId], references: [id])
+  serviceProvider ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  issue           Issue           @relation(fields: [issueId], references: [id])
 }
-
 
 model Review {
   id                Int      @id @default(autoincrement())
@@ -143,4 +145,23 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
+}
+
+enum ServiceCategoryEnum {
+  ELECTRICIAN
+  PLUMBING
+  CARPENTER
+  PAINTER
+  HOME_SALON_MALE
+  HOME_SALON_FEMALE
+  MAKEUP
+  AC_REPAIR
+  SHIFT_HOME
+  CONSTRUCTION
+  HOME_CLEANING
+  PEST_CONTROL
+  LAUNDRY
+  GARDENING
+  HOUSE_HELP
+  HANDYMAN
 }

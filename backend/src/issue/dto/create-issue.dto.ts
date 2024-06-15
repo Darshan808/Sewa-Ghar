@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { ServiceCategoryEnum } from "@prisma/client";
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateIssueDto {
   @IsString()
@@ -14,4 +15,16 @@ export class CreateIssueDto {
 
   @IsNumber()
   price: number;
+
+  @IsString()
+  @IsNotEmpty()
+  preferredDate: string;
+
+  @IsString()
+  @IsNotEmpty()
+  preferredTime: string;
+
+  @IsEnum(ServiceCategoryEnum)
+  @IsNotEmpty()
+  category: ServiceCategoryEnum;
 }
