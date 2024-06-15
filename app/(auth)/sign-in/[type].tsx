@@ -82,7 +82,7 @@ const SignIn = () => {
             resizeMode="contain"
             className="w-[200px] h-[124px] mt-0 mb-0 mx-auto"
           />
-          <Text className="text-2xl font-semibold text-black mt-0 font-psemibold">
+          <Text className="text-2xl font-semibold text-black mt-0 font-psemibold mb-6 ml-4">
             Log in to <Text className="text-secondary">Sewa Ghar</Text>
           </Text>
           <FormField

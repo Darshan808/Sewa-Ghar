@@ -12,10 +12,6 @@ const SignUp = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
-  const handleSetUser = () => {
-    dispatch(setUser({ name: form.username, email: 'john.doe@example.com' }));
-  };
-
   const handleClearUser = () => {
     dispatch(clearUser());
   };
@@ -34,7 +30,7 @@ const SignUp = () => {
 
     setSubmitting(true);
     try {
-      handleSetUser();
+      // handleSetUser();
       // setUser(result);
       // setIsLogged(true);
 
@@ -58,7 +54,7 @@ const SignUp = () => {
             className="w-[200px] h-[124px] mt-0 mb-0 mx-auto"
           />
 
-          <Text className="text-2xl font-semibold text-black mt-0 font-psemibold">
+          <Text className="text-2xl font-semibold text-black mt-0 font-psemibold ml-4 mb-6">
             Sign Up to <Text className="text-secondary">Sewa Ghar</Text>
           </Text>
 
