@@ -37,9 +37,15 @@ const Profile = () => {
           {user.description}
         </Text>
         <View className="flex-row mt-4">
+          <Text className="font-semibold">Services Categories: </Text>
+          <Text className="text-gray-700">
+            Electrician, Plumber
+          </Text>
+        </View>
+        <View className="flex-row mt-4">
           <Text className="font-semibold">Services Provided: </Text>
           <Text className="text-gray-700">
-            {user.services.length}
+            8
           </Text>
         </View>
         <CustomButton
