@@ -23,12 +23,13 @@ const SignIn = () => {
       description: 'I am a custom Discription',
       profileImage: "load later",
       requests: [],
-      name: 'John Doe',
-      email: 'john.doe@example.com',
+      name: 'Prakash Adhikari',
+      email: 'prakash@example.com',
       id: 1,
       phoneNumber: '1234567890',
       address: '123, Main Street, New York',
-      bookedServices: [{type:"Barber",id: 1, name: 'Service 1', date: '2022-12-12', time: '12:00', location: 'New York', serviceCharge: 1000, status: 'Confirmed'}]
+      // bookedServices: [{type:"Barber",id: 1, name: 'Service 1', date: '2022-12-12', time: '12:00', location: 'New York', serviceCharge: 1000, status: 'Confirmed'}]
+      bookedServices: []
      }));
   };
   const handleClearUser = () => {
@@ -44,31 +45,34 @@ const SignIn = () => {
       Alert.alert("Error", "Please fill in all fields");
     }
 
-    setSubmitting(true);
+    // setSubmitting(true);
+    handleSetUser();
+    if(type === 'customer') router.push('/home')
+    else router.push('servicetabs/home')
 
-    try {
-      const res = await axios.post(`${BASE_URL}/auth/login/user`, form);
-      const newUser = res.data;
-      const userToDispatch = {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        category: newUser.role,
-        phoneNumber: newUser.phoneNumber,
-        address: newUser.address,
-        bookedServices: newUser.bookings,
-        description: `${newUser.name} lives in ${newUser.address}`,
-        services: newUser.issues,
-        requests: [],
-      }
-      dispatch(setUser(userToDispatch));      
-      if(type === 'customer') router.push('/home')
-      else router.push('/service-provider')
-    } catch (error) {
-      if(error instanceof Error) Alert.alert("Error", error.message);
-    } finally {
-      setSubmitting(false);
-    }
+    // try {
+    //   // const res = await axios.post(`${BASE_URL}/auth/login/user`, form);
+    //   // const newUser = res.data;
+    //   // const userToDispatch = {
+    //   //   id: newUser.id,
+    //   //   name: newUser.name,
+    //   //   email: newUser.email,
+    //   //   category: newUser.role,
+    //   //   phoneNumber: newUser.phoneNumber,
+    //   //   address: newUser.address,
+    //   //   bookedServices: newUser.bookings,
+    //   //   description: `${newUser.name} lives in ${newUser.address}`,
+    //   //   services: newUser.issues,
+    //   //   requests: [],
+    //   // }
+    //   dispatch(setUser(userToDispatch));      
+    //   if(type === 'customer') router.push('/home')
+    //   else router.push('/service-provider')
+    // } catch (error) {
+    //   if(error instanceof Error) Alert.alert("Error", error.message);
+    // } finally {
+    //   setSubmitting(false);
+    // }
   };
 
   return (
@@ -86,14 +90,16 @@ const SignIn = () => {
             Log in to <Text className="text-secondary">Sewa Ghar</Text>
           </Text>
           <FormField
-            title="Email"
+            // title="Email"
+            placeholder="Email"
             value={form.email}
             handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
           />
           <FormField
-            title="Password"
+            // title="Password"
+            placeholder="Password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"

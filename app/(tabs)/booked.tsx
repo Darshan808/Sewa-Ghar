@@ -21,13 +21,7 @@ const Booked= () => {
         contentContainerStyle={{paddingHorizontal: 10}}
         renderItem={({ item }) => (
           <BookedServiceCard
-            type={item.type}
-            name={item.name}
-            date={item.date}
-            time={item.time}
-            location={item.location}
-            serviceCharge={item.serviceCharge}
-            status={item.status}
+            item={item}
             onPress={() => (router.push(`/biddings_user/${item.id}`))}
           />
         )}
@@ -35,7 +29,7 @@ const Booked= () => {
           <View className="flex flex-1 mt-4 px-4 space-y-2">
             <View className="w-full flex-1 pt-5 pb-2">
               <Text className="text-xl font-pregular text-black-100 mb-3">
-                Your Booked Services
+                Your Requested Services
               </Text>
             </View>
           </View>

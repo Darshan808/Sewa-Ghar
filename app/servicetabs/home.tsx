@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Image, Text, View } from "react-native";
 import { images } from "../../constants";
@@ -31,13 +31,13 @@ const Home = () => {
                   Welcome Back
                 </Text>
                 <Text className="text-2xl font-psemibold text-secondary">
-                  {user.name.split(" ")[0]}
+                  {/* {user.name.split(" ")[0]} */} Hari
                 </Text>
               </View>
 
               <View>
                 <Image
-                  source={images.service_profile}
+                  source={images.user_avatar}
                   className="w-16 h-16 rounded-full"
                   resizeMode="contain"
                 />

@@ -17,7 +17,7 @@ const Request = () => {
       <TouchableOpacity>
         <Image
           source={icons.heart_fill}
-          className="w-5 h-5 absolute top-2 right-1"
+          className="w-5 h-5 mt-8 absolute top-2 right-1"
         />
         </TouchableOpacity>
         <Text className="text-xl font-bold text-gray-900 font-pregular">{service?.title}</Text>
@@ -58,12 +58,12 @@ const Request = () => {
             source={icons.dateandtime}
             className="w-5 h-5 mr-2 mt-1"
           />
-          <Text className="text-gray-600 text-lg mr-2">Date: <Text className="text-green-500">Urgent</Text></Text>
+          <Text className="text-gray-600 text-lg mr-2">Date: 2024-6-17</Text>
           </View>
           
         </View>
         <Text className="font-pregular text-black text-lg font-bold mt-4 mb-2">Description</Text>
-        <Text className="text-black text-lg">
+        <Text className="text-gray-600 text-lg">
           {service?.description}
         </Text>
         <View className="flex mt-4 relative">
@@ -76,13 +76,13 @@ const Request = () => {
         <CustomButton
             title="Cancel"
             containerStyles="flex-1 mr-2"
-            icon={icons.calendar}
+            icon={icons.multiply}
             handlePress={()=>router.push('/servicetabs/home')}
         />
         <CustomButton
             title="Next"
             containerStyles="flex-1 ml-2 bg-blue-400"
-            icon={icons.clock}
+            icon={icons.rightArrow}
             handlePress={()=>router.push(`/request/final/${serviceId}`)}
         />
       </View>

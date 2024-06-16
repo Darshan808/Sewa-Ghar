@@ -22,6 +22,10 @@ import money from '../assets/icons/money.png'
 import accept from '../assets/icons/checked.png'
 import cancel from '../assets/icons/multiply.png'
 import send from '../assets/icons/send.png'
+import multiply from '../assets/icons/multiply.png'
+import right_arrow from '../assets/icons/right-arrow.png'
+import bot_assistant from  '../assets/icons/bot-assistant.png'
+import paper_clip from '../assets/icons/paperclip.png'
 
 export default {
   booked,
@@ -47,5 +51,9 @@ export default {
   money,
   cancel,
   accept,
-  send
+  send,
+  multiply,
+  right_arrow,
+  bot_assistant,
+  paper_clip
 };

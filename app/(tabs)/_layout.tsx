@@ -88,8 +88,22 @@ const TabLayout = () => {
             ),
           }}
         />
+        <Tabs.Screen
+          name="chat"
+          options={{
+            title: "Sewa AI",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.bot_assistant}
+                color={color}
+                name="Sewa AI"
+                focused={focused}
+              />
+            ),
+          }}
+        />
       </Tabs>
-
       {/* <Loader isLoading={loading} /> */}
       <StatusBar style="dark" />
     </>

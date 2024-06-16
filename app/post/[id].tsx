@@ -20,9 +20,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useDispatch } from "react-redux";
 import { addBookedState } from "@/store/userSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface FormProps {
-  title:string,
+  sTitle:string,
   description:string;
   price:number|null;
   date?:Date | string;
@@ -33,13 +35,14 @@ interface FormProps {
 }
 
 const Create = () => {
+  const user = useSelector((state:RootState) => state.user);
   const dispatch = useDispatch();
   const params = useLocalSearchParams();
   const serviceId = parseInt(params["id"] as string);
   const service = services.find((s) => s.id === serviceId);
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState<FormProps>({
-    title:"",
+    sTitle:"",
     description: "",
     price: null,
     date: "",
@@ -102,13 +105,13 @@ const Create = () => {
 
   const submit = async () => {
     if (
-      (form.title === "") ||
+      (form.sTitle === "") ||
       (form.description === "")
     ) {
       return Alert.alert("Please provide all fields");
     }
 
-    setUploading(true);
+    // setUploading(true);
     try {
       // await createVideoPost({
       //   ...form,
@@ -116,11 +119,12 @@ const Create = () => {
       // });
 
       Alert.alert("Success", "Post uploaded successfully");  
-      const {title, description, price, date, time, isUrget} = form; 
+      const {sTitle, description, price, date, time } = form; 
+      
       const data = {
         id: Math.floor(Math.random() * 1000),
         type: service?.name,
-        title:title,
+        title:sTitle,
         description,
         serviceCharge:price,
         date,
@@ -128,15 +132,19 @@ const Create = () => {
         status: 'Pending',
         location: 'Kathmandu',
       }
+      if(form.isUrget) data.date = 'Urgent'
+      if(form.isUrget) data.time = 'Urgent'
       console.log(data);
-      
       dispatch(addBookedState(data));
+      setTimeout(() => {
+        console.log(user.bookedServices);
+      }, 2000)
       router.push("/booked");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
       setForm({
-        title:"",
+        sTitle:"",
         description: "",
         price: null,
         date: "",
@@ -170,9 +178,9 @@ const Create = () => {
         <Text className="text-2xl text-black font-psemibold">Create a <Text className="text-secondary">{service?.name}</Text> service request</Text>
         <FormField
           title="Title"
-          value={form.title}
+          value={form.sTitle}
           placeholder=""
-          handleChangeText={(e) => setForm({ ...form, title: e })}
+          handleChangeText={(e) => setForm({ ...form, sTitle: e })}
           otherStyles="mt-4"
         />
         <FormField
@@ -186,8 +194,9 @@ const Create = () => {
           title="Price"
           value={form.price}
           placeholder=""
-          handleChangeText={(e) => setForm({ ...form, price: e })}
+          handleChangeText={(e) => setForm({ ...form, price: parseInt(e) })}
           otherStyles="mt-4"
+          keyboardType="number-pad"
         />
           <View className="flex flex-row items-center px-4 mt-4">
             <Text className="text-lg font-pregular text-gray-600">Urgent Service:</Text>

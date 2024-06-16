@@ -15,7 +15,7 @@ const RequestCard = ({ item, onPress }: RequestCardProps) => {
         <TouchableOpacity>
           <Image
             source={icons.heart_fill}
-            className="w-5 h-5 absolute top-2 right-1"
+            className="w-5 h-5 absolute top-6 right-1"
           />
         </TouchableOpacity>
         <Text className="text-gray-400 text-sm">Posted {item.posted}</Text>

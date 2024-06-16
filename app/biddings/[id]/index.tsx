@@ -13,7 +13,7 @@ const Biddings = () => {
   const params = useLocalSearchParams();
   const serviceId = parseInt(params["id"] as string);
   const service = user.bookedServices.filter((bs)=>bs.id===serviceId)[0];
-    const getTextColor = (status:string):string => {
+  const getTextColor = (status:string):string => {
         switch (status) {
         case 'Confirmed':
             return 'text-green-500';
@@ -25,6 +25,8 @@ const Biddings = () => {
             return 'text-gray-500';
         }
     }
+
+    const [ssc,setSsc] = useState('Confirmed')
   return (
     <ScrollView>
     <View className="w-[90vw] bg-white rounded-2xl mt-12 mx-auto p-4 shadow-lg flex">
@@ -32,7 +34,7 @@ const Biddings = () => {
         <View className=" flex border-secondary bg-gray-50 border-1 px-2 rounded-lg py-4 mb-4">
             <View className=" flex flex-row justify-between w-full">
             <Image source={images.service_profile} className="w-8 h-8 mr-2"/>
-            <Text className="font-pregular font-bold mt-1">Darshan Poudel</Text>
+            <Text className="font-pregular font-bold mt-1">Rudra Pokhrel</Text>
                 <View className="ml-auto flex flex-row" >
                     {
                         Array.from({length: 4}).map((_, index) => (
@@ -51,19 +53,19 @@ const Biddings = () => {
                 <Text className="text-gray-400 text-sm ml-10">Charge: Rs.1200</Text>
                 <Text className="text-green-500 text-sm ml-auto mr-2 underline">View more</Text>
             </View>
-            </View>
+          </View>
         </TouchableOpacity>
         <View className="flex felx-1 flex-row justify-between items-center">
           <View className="flex-1">
             <View className="flex flex-col items-start justify-start">
-              <Text className="text-xl text-black font-bold mb-2">{service.name}</Text>
+              <Text className="text-xl text-black font-bold mb-2">{service.date}</Text>
               <Text className="text-sm text-gray-800 mb-1">Date: {service.date}</Text>
               <Text className="text-sm text-gray-800 mb-1">Time: {service.time}</Text>
               <Text className="text-sm text-gray-800 mb-1">Location: {service.location}</Text>
-              <Text className="text-sm text-gray-800 mb-1">Charge: ${service.serviceCharge}</Text>
+              <Text className="text-sm text-gray-800 mb-1">Charge: Rs. {service.serviceCharge}</Text>
               <Text className="text-sm text-gray-800 mb-1">
                 Status:{' '}
-                <Text className={`text-sm font-semibold ${getTextColor(service.status)}`}>{service.status}</Text>
+                <Text className={`text-sm font-semibold ${getTextColor(ssc)}`}>{service.status}</Text>
               </Text>
             </View>
           </View>
@@ -104,7 +106,7 @@ const Biddings = () => {
                 <View className="bg-green-50 py-3 rounded-lg">
                     <View className="flex flex-row">
                         <Image source={icons.user} className="h-4 w-4 mr-2 mt-3"/>
-                    <Text className="text-gray-600 font-pregular text-lg font-semibold mt-2">I will come by 8 PM</Text>
+                    <Text className="text-gray-600 font-pregular text-lg font-semibold mt-2">I'll be there by 4 PM</Text>
                     </View>
                     <FormField placeholder={"reply"} />
                 </View>
@@ -123,8 +125,9 @@ const Biddings = () => {
             <CustomButton 
               containerStyles="bg-green-500 px-6 rounded-lg" 
               textStyles='text-sm'
-              handlePress={()=>setShowModel(false)}
-              title='Accept'
+              handlePress={()=>{setSsc('Confirmed');
+                setShowModel(false)}}
+              title='Accepttt'
               icon={icons.accept}
             />
             <CustomButton 

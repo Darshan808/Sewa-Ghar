@@ -36,7 +36,7 @@ const Request = () => {
     <View className="flex">
       <TouchableOpacity>
         <Image
-          source={icons.heart_fill}
+          source={icons.heart_outline}
           className="w-5 h-5 absolute top-2 right-1"
         />
         </TouchableOpacity>
@@ -82,7 +82,7 @@ const Request = () => {
             value={quotation}
             handleChangeText={(e) => setQuotation(e)}
             otherStyles=""
-            keyboardType={"numeric"}
+            keyboardType={'number-pad'}
           />
       </View>
     <View>

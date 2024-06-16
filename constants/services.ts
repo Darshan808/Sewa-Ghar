@@ -22,11 +22,6 @@ const services:Service[] = [
         image: add,
     },
     {
-        id: 1,
-        name: "Electrician",
-        image: electrician,
-    },
-    {
         id: 2,
         name: "Plumber",
         image: plumber,
@@ -90,6 +85,11 @@ const services:Service[] = [
         id: 14,
         name: "Laundry Service",
         image: washing_machine,
+    },
+    {
+        id: 1,
+        name: "Electrician",
+        image: electrician,
     },
 ]
 

@@ -9,7 +9,7 @@ interface ServiceCardProps {
 
 const ServiceCard = ({name, image, onPress}:ServiceCardProps) => {
   return (
-    <View className="w-24 h-24 bg-white rounded-2xl border-secondary flex-1 m-2 justify-center items-center p-4 rounded-lg shadow-lg">
+    <View className="w-28 h-28 bg-white rounded-2xl border-secondary flex-1 m-2 justify-center items-center p-4 rounded-lg shadow-lg">
       <TouchableOpacity 
         onPress={onPress}
         className="flex flex-col items-center justify-center h-full relative"
@@ -20,7 +20,7 @@ const ServiceCard = ({name, image, onPress}:ServiceCardProps) => {
         />
         {
         (name.split(' ').length > 1) ? <Text className="text-sm mt-3 text-black text-center w-full">{name.split(' ')[0]+'\n'+(name.split(' ')[1])}</Text>:
-        <Text className="text-sm mt-3 text-black text-center w-full">{name}</Text>
+        <Text className="text-sm mt-3 text-black text-center w-full justify-end">{name}</Text>
         }
       </TouchableOpacity>
     </View>

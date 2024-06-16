@@ -27,35 +27,54 @@ const SignUp = () => {
     address: "",
   });
 
+  const handleSetUser = () => {
+    dispatch(setUser({ 
+      category: type === 'customer' ? 'Customer' : 'Service Provider',
+      services: [],
+      description: 'I am a custom Discription',
+      profileImage: "load later",
+      requests: [],
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      id: 1,
+      phoneNumber: '1234567890',
+      address: '123, Main Street, New York',
+      // bookedServices: [{type:"Barber",id: 1, name: 'Service 1', date: '2022-12-12', time: '12:00', location: 'New York', serviceCharge: 1000, status: 'Confirmed'}]
+    
+      bookedServices: []
+    }));
+  };
+
   const submit = async () => {
     if (form.name === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
 
     setSubmitting(true);
-    try {
-      const res = await axios.post(`${BASE_URL}/auth/register/user`, form);
+    handleSetUser();
+    // try {
+    //   const res = await axios.post(`${BASE_URL}/auth/register/user`, form);
 
-      const newUser = res.data;
-      const userToDispatch = {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        category: newUser.role,
-        phoneNumber: newUser.phoneNumber,
-        address: newUser.address,
-        bookedServices: newUser.bookings,
-        description: `${newUser.name} lives in ${newUser.address}`,
-        services: newUser.issues,
-        requests: [],
-      }
-      dispatch(setUser(userToDispatch));      
-      router.push('/home')
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitting(false);
-    }
+    //   const newUser = res.data;
+    //   const userToDispatch = {
+    //     id: newUser.id,
+    //     name: newUser.name,
+    //     email: newUser.email,
+    //     category: newUser.role,
+    //     phoneNumber: newUser.phoneNumber,
+    //     address: newUser.address,
+    //     bookedServices: newUser.bookings,
+    //     description: `${newUser.name} lives in ${newUser.address}`,
+    //     services: newUser.issues,
+    //     requests: [],
+    //   }
+    //   dispatch(setUser(userToDispatch));      
+    //   router.push('/home')
+    // } catch (error) {
+    //   console.error(error);
+    // } finally {
+    //   setSubmitting(false);
+    // }
   };
 
   return (
@@ -109,7 +128,7 @@ const SignUp = () => {
             value={form.address}
             handleChangeText={(e) => setForm({ ...form, address: e })}
             otherStyles="mt-5"
-            keyboardType={"numeric"}
+            keyboardType={'number-pad'}
           />
 
           <CustomButton

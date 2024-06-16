@@ -29,7 +29,7 @@ const FormField = ({
     <View className={`space-y-2 mt-6 px-4 ${otherStyles}}`}>
       <Text className="text-lg font-pregular text-gray-600">{title}</Text>
 
-      <View className="w-full h-6 bg-white-100 rounded-2xl flex flex-row items-center">
+      <View className="w-full h-8 bg-white-100 rounded-2xl flex flex-row items-center">
         <TextInput
           className="flex-1 text-black font-psemibold text-base"
           style={[
@@ -40,14 +40,14 @@ const FormField = ({
           placeholder={placeholder}
           placeholderTextColor="#7B7B8B"
           onChangeText={handleChangeText}
-          secureTextEntry={title === "Password" && !showPassword}
+          secureTextEntry={placeholder === "Password" && !showPassword}
           keyboardType={keyboardType}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           {...props}
         />
 
-        {title === "Password" && (
+        {placeholder === "Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             <Image
               source={!showPassword ? icons.eye : icons.eyeHide}

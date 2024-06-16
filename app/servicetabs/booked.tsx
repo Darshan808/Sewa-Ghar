@@ -16,19 +16,12 @@ const Booked= () => {
       <View className="w-[100vw] flex flex-col">
       <FlatList
         data={user?.bookedServices}
-        keyExtractor={(item:BookedService) => item.id.toString()}
+        keyExtractor={(item:BookedService,index) => index.toString()}
         numColumns={1}
         contentContainerStyle={{paddingHorizontal: 10}}
         renderItem={({ item }) => (
           <BookedServiceCard
-            type={item.type}
-            name={item.name}
-            // image={item.image}
-            date={item.date}
-            time={item.time}
-            location={item.location}
-            serviceCharge={item.serviceCharge}
-            status={item.status}
+            item={item}
             onPress={() => (router.push(`/biddings/${item.id}`))}
           />
         )}

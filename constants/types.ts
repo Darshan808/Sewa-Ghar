@@ -9,7 +9,7 @@ interface Service {
 interface BookedService {
     type:string,
     id: number,
-    name: string,
+    title: string,
     date: string,
     time: string,
     location: string,
